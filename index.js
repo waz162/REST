@@ -6,7 +6,7 @@ var urlRoot = "https://api.github.com";
 // NCSU Enterprise endpoint:
 //var urlRoot = "https://api.github.ncsu.edu";
 
-var userId = "yy2111";
+var userId = "waz162";
 var config = {};
 // Retrieve our api token from the environment variables.
 config.token = process.env.GITHUBTOKEN;
@@ -95,7 +95,7 @@ function listAuthenicatedUserRepos()
 // 1. Write code for listBranches in a given repo under an owner. See list branches
 async function listBranches(owner,repo)
 {
-	let options = getDefaultOptions(`/`, "GET");
+	let options = getDefaultOptions(`/repos/${owner}/${repo}/branches`, "GET");
 
 	// Send a http request to url and specify a callback that will be called upon its return.
 	return new Promise(function(resolve, reject)
@@ -112,7 +112,10 @@ async function listBranches(owner,repo)
 // 2. Write code to create a new repo
 async function createRepo(owner,repo)
 {
-	let options = getDefaultOptions("/", "POST");
+	let options = getDefaultOptions("/user/repos", "POST");
+	options.json = {
+		name:repo
+	}
 
 	// Send a http request to url and specify a callback that will be called upon its return.
 	return new Promise(function(resolve, reject)
@@ -128,7 +131,11 @@ async function createRepo(owner,repo)
 // 3. Write code for creating an issue for an existing repo.
 async function createIssue(owner,repo, issueName, issueBody)
 {
-	let options = getDefaultOptions("/", "POST");
+	let options = getDefaultOptions(`/repos/${owner}/${repo}/issues`, "POST");
+	options.json = {
+		title: issueName,
+		body: issueBody
+	}
 
 	// Send a http request to url and specify a callback that will be called upon its return.
 	return new Promise(function(resolve, reject)
